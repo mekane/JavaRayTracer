@@ -1,0 +1,151 @@
+#
+# Java RayTracer
+# Marty Kane
+# Started July, 2005
+#
+# Current Version: 0.0.1
+#
+# Version History:
+
+version 0.0.1
+
+Started this project for several reason. One, to remember how I did it before in 
+CS 495 (Advanced Graphics). Two, to try to go farther than where I was before. By
+this I mean I want to use an Object-oriented approach, and make it easier to understand.
+I first had to review the Vector math, and the equations to intersect rays with 3d objects.
+After reviewing the math, working my way backwards to the beginning, I started to try to
+implement some of them. I started with a test scene containing a sphere at the origin point
+and no lights. The hardest part at first was to get the camera / viewing rays set up. At 
+first things didn't go very well, and it took some time to get everything right. On July 22, 
+at the Werkema family reunion, I got the test sphere to render correctly (minus shading). 
+Then I spent some time working on a checkerboard pattern for the floor. 
+(img/00_working.bmp)
+
+
+August 1, 2005
+
+We're up at the cottage in the U.P. now. I thought I'd try some things to try and correct
+my math. I'm pretty sure I got mixed up with the y and z axes, and I'm not sure about my
+vectors, so I'm going to make a test program to see how it goes. I'll make a camera class
+and shoot some test rays to make sure everything is sane.
+
+
+
+Wed, AUgust 3
+
+Made the Camera class, and reviewed the math. Using the camera, I think my rays are better.
+My Z plane, at least, looks good. The next step was to adjust / revise the sphere intersect
+code to try to get it to work with something other than the generic sphere at (0,0,0). So
+after reviewing my notes from Graphics 495 I was able to move the sphere around.
+
+The next step will be to add multiple objects. The Main drawing class needs some data 
+structure, and I should make a class to store intersection information, to figure out which 
+of the (multiple) objects was hit.
+
+
+
+Version 0.0.2
+Thu, August 4 2005
+
+Did some work on the Intersection class, and starting to track multiple hits for multiple 
+objects. This will require a fair amount of reorganization, so I want to back up what I've
+got first. Right now everything seems to work the way it's supposed to work. I added the 
+ability to change the screen size to draw different sized pictures. This will speed up testing
+once I throw in several spheres. I'm going to archive this version, and then start tearing
+things apart to make them more generalized, since right now there is one sphere and one plane,
+and they are both hard-coded into the program.
+
+Worked on the main loop of the program. Changed the intersectWith() function to return an
+array of Intersection objects, which contain data about the intersection that occurred. Also
+had to create a global array of Objects (used a Vector with generics) in the scene. After
+doing this I was able to add some more spheres to the scene. Ended up having to fiddle with
+the code a little to make sure that the objects in front were the ones drawn, but it seems to
+be working correctly.
+
+Next I started working on a Tri3d class, to represent a triangular section of a 3d plane. I
+wrote the basic class, and now I have to fill in the intersectWith() method.
+
+
+
+Fri, August 5
+
+Reviewed my notebook from graphics again, to get a better idea of how plane-intersection works.
+Filled in as much of the code as I could, and then took a break for pasties. I got the 
+intersection part working okay, I just needed to make sure the intersection point was inside 
+the polygon! So, that took a little more reviewing and some more thinking. I got it mostly 
+working and started some tests - three triangles. They worked fine until I tried to make one
+upright, with a positive Y value in one of the vertices, and it didn't appear. So I had to do
+some tests, and I tracked the bug down to a missing pair of parentheses in the intersect code.
+So, now triangles seem to be working and I can move on to lighting.
+
+
+
+Saturday, August 6
+
+Worked on lighting. I read the chapter on lighting from my textbook, and skimmed my notes. I for
+sure gained a better understanding of the theory of diffuse and specular lighting, and their
+models. The raytracing chapter has a lot more, which I still need to read in depth. But, I
+added basic diffuse lighting based on a single light and not accounting for shadows. I had to
+modify the ancestor Object3d class to include some material parameters, and it will need to be
+modified further to include all the specular stuff. But at least it looks better than the flat
+color did before.
+
+
+
+Monday, August 8th
+
+I did some reading today, through the rest of the raytracing chapter. I hope to add some more
+procedural textures, and to make it possible to apply them to any object. Also, reflection and
+transparency are two of my goals. I did some reading in Dad's ACM / Siggraph books today, and
+found an article by Kajiya which describes raytacing fractal geometries, prisms (extrusions, I think),
+and surfaces of revolution. It's not very in-depth, and I think the math will be tricky to 
+figure out, but I'd really like to be able to render surfaces of revolution in my program. I 
+plan to read more about the 3d modelling in the graphics textbook when I get a chance.
+
+As far as the program goes I looked at lighting some more. I noticed that my triangles were 
+showing up, but only being lit by the ambient light, even though the light was right over them,
+and they should have been in full illumination. So I checked the normals, and they were both 
+reporting a negative normal. This struck me as odd so I tried reversing the value returned by
+getNormal(), but then they weren't visible at all! So I reversed the value returned in the
+Intersection object. A hack, but it works. It still makes me think I need to go through the
+Tri3d intersect code and make sure everything checks out. There must be a negative something in
+the wrong place somewhere that's causing the normals to work backwards. While I was at it, I
+checked the normals returned by the spheres. The lighting just didn't feel right, especially
+when I moved the light - then it didn't look right at all. I noticed that I was just returning
+the intersect point, which works okay for the generic sphere (from the textbook), but since I
+modified the equation to take the sphere's position into account I had to also modify the normal
+returned. Basically, since I was translating the sphere to calculate the intersect, I also had 
+to translate the normal vector. It was a quick change (just had to return a vector which was the
+hit point minus the center point) and now lighting looks good. 
+
+I also added support for multiple lights. The next thing needed is shadows. To get these, I 
+just need to add a check for intersection with any objects. I'll need to write a special hit
+method for this check, since I don't want the big, fancy version; I just want to know whether
+or not an object is in the way of the light.
+
+
+
+Tuesday, August 9th
+
+Decided to work on the Triangle code to see what's up. I tried a bunch of diagnostic printing,
+and then did a test to try another method of intersecting. So I ended up re-writing the 
+intersect method bit by bit, and it worked! Not only did it just work, but it doesn't appear to
+matter in what order I define the vertices, or which side I view the triangle from. So that 
+makes me feel good. Hopefully it will turn out to be correct now :-)
+
+Added shadow support by writing a simplified intersect method for each of my Object types. Then
+I had to add a loop to check each light, and a method that checks each object to see if it's 
+blocking the light. It worked fairly well - the only snag was in moving the start point of the
+shadow 'feelers' back a little bit from the actual hit point so they wouldn't automatically
+detect the object itself. I just had my signs backwards, so I was starting behind the object, 
+which didn't work very well. Once I got that sorted out it worked pretty nicely. It works better
+with two lights especially. I need to take a closer look at how I'm scaling between the colors.
+And I need to add specular lighting. The Cook-Torrence method is a bit intimidating.
+
+Copied and extended the Tri3d class to make a quad. Convenient for making square things. I tried
+some shadow tests using quads, and the normal does matter for lighting. So I'll have to make 
+sure that I either make two-sided quads, or build polyhedra-type things out of them. I want to
+make 'make-cube' and 'make-pyramid' methods. Quad will take a center and a "radius". Pyramid 
+will take a base and a height. Then some day I'll make a little script reader. That would be 
+cool.
+
