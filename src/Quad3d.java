@@ -137,7 +137,7 @@ public class Quad3d extends Object3d {
         V = P.minus(v3);
         s3 = (U.dot(V) > 0);
 
-        //check third half plane
+        //check fourth half plane
         U = n.cross(v1.minus(v4));
         V = P.minus(v4);
         s4 = (U.dot(V) > 0);

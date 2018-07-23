@@ -139,10 +139,8 @@ public class Tri3d extends Object3d {
         return null;
     }
 
-
     //see Object3d blocks() method
     public boolean blocks(Point3d S, Ray3d c) {
         return (this.intersectWith(S, c) != null);
     }
-
 }

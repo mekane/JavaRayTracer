@@ -132,6 +132,5 @@ public class Sphere extends Object3d {
         }
 
         return false;
-    }//hit
-
+    }
 }
