@@ -149,3 +149,19 @@ make 'make-cube' and 'make-pyramid' methods. Quad will take a center and a "radi
 will take a base and a height. Then some day I'll make a little script reader. That would be 
 cool.
 
+July 2018
+
+Found the source code in an archive on a hard disk. Copied it to my Pixo laptop and opened it up
+in IntelliJ. Got it to compile after installing JDK 1.8. It actually ran and worked once I got the
+compile going. Saw some interesting things in the code, mostly bad variable names (mostly blamed
+on digitizing fomulae from my text book). I noticed that in at least one place I extracted a function
+and gave it a readable name. Ran the IntelliJ code formatter on the code.
+
+Ideas to work on next:
+  * specular lighting (I don't think this is in there...) / spotlights?
+  * Different material types (at least transparent and reflective)
+  * Loading scene definition, objects, etc. from JSON, plus reload on keypress
+  * Camera movement with arrow keys that works as expected, not weirdly on the x/y/z axis
+  * Other stuff from Graphics textbook (?)
+  * Anti-aliasing / higher resolution
+
