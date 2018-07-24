@@ -1,3 +1,5 @@
+package org.martykane;
+
 /**
  * A class that encapsulates a group of 3 doubles
  * <p>

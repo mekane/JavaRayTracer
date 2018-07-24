@@ -1,15 +1,18 @@
+package org.martykane;
+
+import java.awt.Color;
+
 /**
- * A class to encapsulate a 4-sided polygon in 3 dimensions
+ * A class to encapsulate a triangular polygon in 3 dimensions
  */
 
-public class Quad3d extends Object3d {
+public class Tri3d extends Object3d {
     private Point3d v1;
-    private Point3d v2;
+    private Point3d v2; //Vertices of triangle
     private Point3d v3;
-    private Point3d v4;
 
     /**
-     * Construct a new Quad3d. Define vertices in a clockwise direction.
+     * Construct a new Tri3d. Define vertices in a clockwise direction.
      *
      * @param x1 the x coordinate of the first Vertex
      * @param y1 the y coordinate of the first Vertex
@@ -20,33 +23,26 @@ public class Quad3d extends Object3d {
      * @param x3 the x coordinate of the third Vertex
      * @param y3 the y coordinate of the third Vertex
      * @param z3 the z coordinate of the third Vertex
-     * @param x4 the x coordinate of the fourth Vertex
-     * @param y4 the y coordinate of the fourth Vertex
-     * @param z4 the z coordinate of the fourth Vertex
      */
-    public Quad3d(double x1, double y1, double z1,
-                  double x2, double y2, double z2,
-                  double x3, double y3, double z3,
-                  double x4, double y4, double z4) {
+    public Tri3d(double x1, double y1, double z1,
+                 double x2, double y2, double z2,
+                 double x3, double y3, double z3) {
         this.v1 = new Point3d(x1, y1, z1);
         this.v2 = new Point3d(x2, y2, z2);
         this.v3 = new Point3d(x3, y3, z3);
-        this.v4 = new Point3d(x4, y4, z4);
     }
 
     /**
-     * Construct a new Quad3d. Define vertices in a clockwise direction.
+     * Construct a new Tri3d. Define vertices in a clockwise direction.
      *
      * @param p1 the first Vertex
      * @param p2 the second Vertex
      * @param p3 the third Vertex
-     * @param p4 the fourth Vertex
      */
-    public Quad3d(Point3d p1, Point3d p2, Point3d p3, Point3d p4) {
+    public Tri3d(Point3d p1, Point3d p2, Point3d p3) {
         this.v1 = new Point3d(p1);
         this.v2 = new Point3d(p2);
         this.v3 = new Point3d(p3);
-        this.v4 = new Point3d(p4);
     }
 
 
@@ -62,15 +58,15 @@ public class Quad3d extends Object3d {
         return new Point3d(this.v3);
     }
 
-    public Point3d getV4() {
-        return new Point3d(this.v4);
+    public Color getColor() {
+        return this.color;
     }
 
 
     /**
-     * Get a Ray normal to the plane of this Quad
+     * Get a Ray normal to the plane of this Tri
      *
-     * @return a Ray3d that is perpendicular to the plane of this polygon
+     * @return a Ray3d that is perpendicular to the plane of this Triangle
      */
     public Ray3d getNormal() {
         Ray3d U = getV2().minus(getV1());
@@ -82,7 +78,7 @@ public class Quad3d extends Object3d {
 
     /**
      * Determine when (whether) the given Ray, starting from the given Point,
-     * intersects with this Quad.
+     * intersects with this Tri.
      *
      * @param S the origin of the Ray
      * @param c the Ray to check
@@ -92,16 +88,16 @@ public class Quad3d extends Object3d {
      * be item [0].
      */
     public Intersection[] intersectWith(Point3d S, Ray3d c) {
-    /* To determine whether the ray intersects this quad, we first find 
+    /* To determine whether the ray intersects this triangle, we first find 
      * the intersection time of the ray with the plane that the ray lies on,
-     * and then determine whether the hit point lies within the quad.
+     * and then determine whether the hit point lies within the triangle.
      *
      * We find the hit point below. If the hit point is negative, we return
      * null because the plane is behind the eye. If we get a positive hit, we
-     * move on to testing whether the point is within the quad. To do this,
-     * we construct normal rays for each side of the quad, and if the angle
+     * move on to testing whether the point is within the triangle. To do this,
+     * we construct normal rays for each side of the triangle, and if the angle
      * between the normal ray and the point is less than zero we know the point
-     * lies on the outside of the side, so it must not be in our quad.
+     * lies on the outside of the side, so it must not be in our triangle.
      */
         Ray3d n = this.getNormal();
 
@@ -120,7 +116,6 @@ public class Quad3d extends Object3d {
         boolean s1 = true;
         boolean s2 = true; //Check the point against each side
         boolean s3 = true;
-        boolean s4 = true;
 
         //check a half plane
         Ray3d U = n.cross(v2.minus(v1));
@@ -133,16 +128,11 @@ public class Quad3d extends Object3d {
         s2 = (U.dot(V) > 0);
 
         //check third half plane
-        U = n.cross(v4.minus(v3));
+        U = n.cross(v1.minus(v3));
         V = P.minus(v3);
         s3 = (U.dot(V) > 0);
 
-        //check fourth half plane
-        U = n.cross(v1.minus(v4));
-        V = P.minus(v4);
-        s4 = (U.dot(V) > 0);
-
-        if (s1 && s2 && s3 && s4) {
+        if (s1 && s2 && s3) {
             Intersection[] result = new Intersection[1];
             result[0] = new Intersection(t, this, true, 1, P, n);
             return result;
@@ -151,10 +141,8 @@ public class Quad3d extends Object3d {
         return null;
     }
 
-
     //see Object3d blocks() method
     public boolean blocks(Point3d S, Ray3d c) {
         return (this.intersectWith(S, c) != null);
     }
-
 }

@@ -1,3 +1,5 @@
+package org.martykane;
+
 /**
  * A class to group hit data for an Intersection of a Ray with a 3d Object
  */

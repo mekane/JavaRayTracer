@@ -1,3 +1,5 @@
+package org.martykane;
+
 /**
  * A class to encapsulate a camera in 3d
  * <p>

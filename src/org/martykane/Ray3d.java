@@ -1,3 +1,5 @@
+package org.martykane;
+
 /**
  * A class to represent a 3-dimensional ray.
  */

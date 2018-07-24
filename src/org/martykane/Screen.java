@@ -1,3 +1,5 @@
+package org.martykane;
+
 /**
  * The screens draw a visual representation of everything in the World.
  * It keeps an internal list of all the entities it is supposed to draw.

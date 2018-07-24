@@ -1,3 +1,5 @@
+package org.martykane;
+
 /**
  * Base class for an sphere that exists in our 3d world
  */

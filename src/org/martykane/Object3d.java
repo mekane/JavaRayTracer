@@ -1,3 +1,5 @@
+package org.martykane;
+
 import java.awt.Color;
 
 public abstract class Object3d {
