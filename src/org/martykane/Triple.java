@@ -1,5 +1,6 @@
 package org.martykane;
 
+import java.awt.*;
 import java.util.Collections;
 
 /**
@@ -23,6 +24,12 @@ public class Triple implements Exportable {
         this.x = nx;
         this.y = ny;
         this.z = nz;
+    }
+
+    public Triple(Color c) {
+        this.x = c.getRed();
+        this.y = c.getGreen();
+        this.z = c.getBlue();
     }
 
     //XYZ
