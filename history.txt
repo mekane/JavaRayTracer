@@ -158,9 +158,10 @@ on digitizing fomulae from my text book). I noticed that in at least one place I
 and gave it a readable name. Ran the IntelliJ code formatter on the code.
 
 Ideas to work on next:
+  * Add unit testing framework, TDD "fromJSON" methods on each type.
+  * Loading scene definition, objects, etc. from JSON, plus reload on keypress
   * specular lighting (I don't think this is in there...) / spotlights?
   * Different material types (at least transparent and reflective)
-  * Loading scene definition, objects, etc. from JSON, plus reload on keypress
   * Camera movement with arrow keys that works as expected, not weirdly on the x/y/z axis
   * Other stuff from Graphics textbook (?)
   * Anti-aliasing / higher resolution

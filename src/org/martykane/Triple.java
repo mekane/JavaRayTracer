@@ -1,12 +1,14 @@
 package org.martykane;
 
+import java.util.Collections;
+
 /**
  * A class that encapsulates a group of 3 doubles
  * <p>
  * They can be referenced by X,Y,Z or A,B,C or 1,2,3 or R,G,B
  */
 
-public class Triple {
+public class Triple implements Exportable {
     double x;
     double y;
     double z;
@@ -73,5 +75,32 @@ public class Triple {
 
     public double getBlue() {
         return this.z;
+    }
+
+    @Override
+    public String toJson() {
+        return String.format("[" + this.x + ", " + this.y + ", " + this.z + "]");
+    }
+
+    @Override
+    public Object fromJson() {
+        return null;
+    }
+
+    public String toJsonObjectWithLabel(String label) {
+        return this.toJsonObjectWithLabel(label, 0);
+    }
+
+    public String toJsonObjectWithLabel(String label, int indentLevel) {
+        String indent = "";
+        if (indentLevel > 0)
+            indent = String.join("", Collections.nCopies(indentLevel, "  "));
+
+        return String.join("\n",
+                indent + label + ": {",
+                indent + "  x: " + this.x + ",",
+                indent + "  y: " + this.y + ",",
+                indent + "  z: " + this.z,
+                indent + "}");
     }
 }

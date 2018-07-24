@@ -7,7 +7,7 @@ package org.martykane;
  * is oriented.
  */
 
-public class Camera {
+public class Camera implements Exportable {
     private double x;
     private double y; //position
     private double z;
@@ -218,6 +218,19 @@ public class Camera {
         //c.getPixel(0,0);
         //c.getPixel(320,242);
         //c.getPixel(321,241);
+    }
+
+    public String toJson() {
+        return String.join("\n",
+                "{",
+                this.getPosition().toTriple().toJsonObjectWithLabel("position", 1) + ",",
+                this.getLookPoint().toTriple().toJsonObjectWithLabel("center", 1) + ",",
+                this.getUpVector().toTriple().toJsonObjectWithLabel("up", 1),
+                "}");
+    }
+
+    public Object fromJson() {
+        return null;
     }
 }
 
