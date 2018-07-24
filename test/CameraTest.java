@@ -4,6 +4,12 @@ import org.junit.Test;
 import org.martykane.Camera;
 
 public class CameraTest {
+
+    //getN returns eye minus look
+    //getU returns up cross n
+    //getV returns n cross u
+    //getPixel sets up a ray for the column and row
+
     @Test
     public void exportsToJson() {
         Camera testCam = new Camera(1.0, 2.0, 3.0,
