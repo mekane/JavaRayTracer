@@ -195,31 +195,6 @@ public class Camera implements Exportable {
         return r1.plus(r2).plus(r3);
     }
 
-
-    public static void main(String args[]) {
-        System.out.println("Testing Camera\n");
-        Camera c = new Camera(0, 0, -2,
-                0, 0, 0,
-                0, 1, 0);
-
-        System.out.println("position: " + c.getPosition());
-        System.out.println("look at: " + c.getLookPoint());
-        System.out.println("up vec: " + c.getUpVector());
-
-        System.out.println();
-
-        System.out.println("N = " + c.getN());
-        System.out.println("U = " + c.getU());
-        System.out.println("V = " + c.getV());
-
-        System.out.println("");
-        System.out.println("Some Tests");
-
-        //c.getPixel(0,0);
-        //c.getPixel(320,242);
-        //c.getPixel(321,241);
-    }
-
     public String toJson() {
         return String.join("\n",
                 "{",
