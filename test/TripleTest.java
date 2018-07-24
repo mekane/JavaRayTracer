@@ -40,4 +40,18 @@ public class TripleTest {
 
         assertEquals(expectedJson, test.toJsonObjectWithLabel("foo", 1));
     }
+
+    @Test
+    public void canExportToObbjectWithLabelAndIndentLevelTwo() {
+        Triple test = new Triple(4, 5, 6);
+
+        String expectedJson = String.join("\n",
+                "    foo: {",
+                "      x: 4.0,",
+                "      y: 5.0,",
+                "      z: 6.0",
+                "    }");
+
+        assertEquals(expectedJson, test.toJsonObjectWithLabel("foo", 2));
+    }
 }
