@@ -18,10 +18,10 @@ public class TripleTest {
         Triple test = new Triple(2, 3, 4);
 
         String expectedJson = String.join("\n",
-                "foo: {",
-                "  x: 2.0,",
-                "  y: 3.0,",
-                "  z: 4.0",
+                "\"foo\": {",
+                "  \"x\": 2.0,",
+                "  \"y\": 3.0,",
+                "  \"z\": 4.0",
                 "}");
 
         assertEquals(expectedJson, test.toJsonObjectWithLabel("foo"));
@@ -32,10 +32,10 @@ public class TripleTest {
         Triple test = new Triple(3, 4, 5);
 
         String expectedJson = String.join("\n",
-                "  foo: {",
-                "    x: 3.0,",
-                "    y: 4.0,",
-                "    z: 5.0",
+                "  \"foo\": {",
+                "    \"x\": 3.0,",
+                "    \"y\": 4.0,",
+                "    \"z\": 5.0",
                 "  }");
 
         assertEquals(expectedJson, test.toJsonObjectWithLabel("foo", 1));
@@ -46,10 +46,10 @@ public class TripleTest {
         Triple test = new Triple(4, 5, 6);
 
         String expectedJson = String.join("\n",
-                "    foo: {",
-                "      x: 4.0,",
-                "      y: 5.0,",
-                "      z: 6.0",
+                "    \"foo\": {",
+                "      \"x\": 4.0,",
+                "      \"y\": 5.0,",
+                "      \"z\": 6.0",
                 "    }");
 
         assertEquals(expectedJson, test.toJsonObjectWithLabel("foo", 2));

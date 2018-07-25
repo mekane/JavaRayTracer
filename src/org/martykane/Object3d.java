@@ -93,9 +93,9 @@ public abstract class Object3d implements Exportable {
      */
     protected String baseJsonStrings() {
         return String.join("\n",
-                "  name: " + this.getName() + ",",
+                "  \"name\": \"" + this.getName() + "\",",
                 JsonUtils.colorToJson(this.color, 1) + ",",
-                "  diffuse: " + this.diffuse
+                "  \"diffuse\": " + this.diffuse
         );
     }
 }

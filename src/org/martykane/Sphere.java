@@ -141,7 +141,7 @@ public class Sphere extends Object3d {
                 "{",
                 this.baseJsonStrings() + ",",
                 this.getPosition().toTriple().toJsonObjectWithLabel("center", 1) + ",",
-                "  radius: " + this.radius,
+                "  \"radius\": " + this.radius,
                 "}"
         );
     }

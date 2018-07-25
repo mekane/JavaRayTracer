@@ -104,10 +104,10 @@ public class Triple implements Exportable {
             indent = String.join("", Collections.nCopies(indentLevel, "  "));
 
         return String.join("\n",
-                indent + label + ": {",
-                indent + "  x: " + this.x + ",",
-                indent + "  y: " + this.y + ",",
-                indent + "  z: " + this.z,
+                indent + "\"" + label + "\": {",
+                indent + "  \"x\": " + this.x + ",",
+                indent + "  \"y\": " + this.y + ",",
+                indent + "  \"z\": " + this.z,
                 indent + "}");
     }
 }

@@ -315,13 +315,13 @@ public class Screen extends JComponent implements KeyListener {
         for (Object3d o : this.objectList) {
             objectJson.append(o.toJson()).append(",");
         }
-        objectJson.setCharAt(lightJson.length() - 1, ']');
+        objectJson.setCharAt(objectJson.length() - 1, ']');
 
         return String.join("\n",
                 "{",
-                "camera: " + this.cam.toJson() + ",",
-                "lights: " + lightJson + ",",
-                "objects: " + objectJson,
+                "\"camera\": " + this.cam.toJson() + ",",
+                "\"lights\": " + lightJson + ",",
+                "\"objects\": " + objectJson,
                 "}"
         );
     }

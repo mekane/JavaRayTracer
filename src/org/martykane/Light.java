@@ -86,7 +86,7 @@ public class Light implements Exportable {
         return String.join("\n",
                 "{",
                 this.getPosition().toTriple().toJsonObjectWithLabel("position", 1) + ",",
-                "  brightness: " + this.getBrightness() + ",",
+                "  \"brightness\": " + this.getBrightness() + ",",
                 JsonUtils.colorToJson(this.color, 1),
                 "}"
         );

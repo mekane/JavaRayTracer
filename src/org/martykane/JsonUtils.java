@@ -14,10 +14,10 @@ public abstract class JsonUtils {
             indent = String.join("", Collections.nCopies(indentLevel, "  "));
 
         return String.join("\n",
-                indent + "color: {",
-                indent + "  r: " + c.getRed() + ",",
-                indent + "  g: " + c.getGreen() + ",",
-                indent + "  b: " + c.getBlue(),
+                indent + "\"color\": {",
+                indent + "  \"r\": " + c.getRed() + ",",
+                indent + "  \"g\": " + c.getGreen() + ",",
+                indent + "  \"b\": " + c.getBlue(),
                 indent + "}"
         );
     }
