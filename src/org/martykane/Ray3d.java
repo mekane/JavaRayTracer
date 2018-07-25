@@ -220,26 +220,4 @@ public class Ray3d {
     public Triple toTriple() {
         return new Triple(this.x, this.y, this.z);
     }
-
-
-    //Some tests
-    public static void main(String args[]) {
-        System.out.println("3D Ray Testing\n");
-
-        Ray3d r = new Ray3d(1, 2, 1);
-        r.print();
-
-        System.out.println("magnitute: " + r.magnitude());
-        System.out.println("normalized: " + r.normalize());
-        System.out.println("r / 12: " + r.divideBy(12));
-        System.out.println("");
-
-        Ray3d a = new Ray3d(-1d, 0d, 0d);
-        Ray3d b = new Ray3d(0d, 1d, 0d);
-        a.print();
-        b.print();
-        System.out.println("Cross Product:" + a.cross(b));
-
-    }
-
 }
