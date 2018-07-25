@@ -40,14 +40,14 @@ public class Screen extends JComponent implements KeyListener {
         super();
 
         //CAMERA
-        cam = new Camera(new Point3d(-1.01d, 1, -4d),
-                new Point3d(8d, 2d, 4d));
+        cam = new Camera(new Point3d(20, 20, 20),
+                new Point3d(50, 5, 45));
         cam.setViewDist(600);
 
         //LIGHTS
         this.lightList = new Vector<Light>();
-        lightList.add(new Light(0d, 15d, -4d, 0.15, new Color(255, 180, 180)));
-        lightList.add(new Light(0d, 15d, 6d, 0.95, new Color(180, 255, 180)));
+        lightList.add(new Light(0, 45, 0, 0.95, new Color(255, 255, 255)));
+        lightList.add(new Light(-45, 25, 45, 0.5, new Color(255, 100, 100)));
 
         this.ambientLight = 0.1f;
 
@@ -55,24 +55,30 @@ public class Screen extends JComponent implements KeyListener {
         this.objectList = new Vector<Object3d>();
 
         Quad3d q = new Quad3d(
-                new Point3d(9d, 0d, -9d),
-                new Point3d(-9d, 0d, -9d),
-                new Point3d(-9d, 0d, 9d),
-                new Point3d(9d, 0d, 9d)
+                new Point3d(90, 0d, -90),
+                new Point3d(-90, 0d, -90),
+                new Point3d(-90, 0d, 90),
+                new Point3d(90, 0d, 90)
         );
+
         q.setMaterial(new Color(32, 32, 48), 0.65);
         q.setName("Blue surface");
         objectList.add(q);
 
-        Sphere s1 = new Sphere(new Point3d(5, 1.5, 2), 1);
-        s1.setColor(new Color(200, 200, 200));
-        s1.setDiffuse(0.9d);
+        Sphere s1 = new Sphere(new Point3d(45, 5, 45), 5);
+        s1.setColor(new Color(100, 170, 100));
+        s1.setDiffuse(0.7d);
         objectList.add(s1);
 
-        Sphere s2 = new Sphere(new Point3d(5, 4, 2), 1);
-        s2.setColor(new Color(10, 90, 255));
-        s2.setDiffuse(0.1d);
+        Sphere s2 = new Sphere(new Point3d(56, 5, 45), 5);
+        s2.setColor(new Color(50, 100, 200));
+        s2.setDiffuse(0.4d);
         objectList.add(s2);
+
+        Sphere s3 = new Sphere(new Point3d(56, 5, 30), 5);
+        s3.setColor(new Color(200, 100, 50));
+        s3.setDiffuse(0.6d);
+        objectList.add(s3);
 
         //Window Setup
         this.setMinimumSize(new Dimension(width, height));
@@ -140,11 +146,9 @@ public class Screen extends JComponent implements KeyListener {
                         //object, then that object is blocking this light, so we skip it
                         Ray3d toLight = L.getPosition().minus(start);
                         if (isInShadow(start, toLight)) {
-                            //continue; //this seems problematic / too simplistic. Shadows don't have any variance.
                             double id = ambientLight;
                             nhue = addColors(nhue, mulColor(hue, id));
-                        }
-                        else {
+                        } else {
                             Ray3d S = L.getPosition().minus(P).normalize();
 
                             double val = Math.max(S.dot(N), 0);
