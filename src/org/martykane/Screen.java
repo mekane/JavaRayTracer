@@ -219,53 +219,48 @@ public class Screen extends JComponent implements KeyListener {
 
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyChar() == 'a') {
-            System.out.println("a");
-            System.out.println("Print All Values");
-            System.out.println("camera: " + this.cam.toJson());
+            System.out.println("All Scene Values");
+            System.out.println("camera: " + this.sceneToJson());
         } else if (ke.getKeyChar() == 'f') {
-            cam.setViewDist(cam.getViewDist() + 10);
-            System.out.println("Farther, view dist = " + cam.getViewDist());
-        } else if (ke.getKeyChar() == 'n') {
             cam.setViewDist(cam.getViewDist() - 10);
+            System.out.println("Farther, view dist = " + cam.getViewDist());
+        } else if (ke.getKeyChar() == 'h' || ke.getKeyChar() == '?') {
+            this.printKeyboardHelp();
+        } else if (ke.getKeyChar() == 'n') {
+            cam.setViewDist(cam.getViewDist() + 10);
             System.out.println("Nearer, view dist = " + cam.getViewDist());
         } else if (ke.getKeyChar() == 'p') {
             draw = !draw;
             System.out.println("Draw: " + draw);
+        } else if (ke.getKeyChar() == 'q' || ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
         } else if (ke.getKeyChar() == 's') {
             this.exportToJson();
-        } else if (ke.getKeyChar() == 'y') {
-            Point3d pos = cam.getPosition();
-            pos.setY(pos.getY() + 1);
-            cam.setPosition(pos);
-            System.out.println("Up, y = " + cam.getPosition().getY());
-        } else if (ke.getKeyChar() == 'Y') {
-            Point3d pos = cam.getPosition();
-            pos.setY(pos.getY() - 1);
-            cam.setPosition(pos);
-            System.out.println("Down, y = " + cam.getPosition().getY());
+            System.out.println("Scene exported to scene.json");
         } else if (ke.getKeyChar() == 'x') {
             Point3d pos = cam.getPosition();
             pos.setX(pos.getX() + 1);
             cam.setPosition(pos);
-            System.out.println("more, x = " + cam.getPosition().getX());
         } else if (ke.getKeyChar() == 'X') {
             Point3d pos = cam.getPosition();
             pos.setX(pos.getX() - 1);
             cam.setPosition(pos);
-            System.out.println("less, x = " + cam.getPosition().getX());
+        } else if (ke.getKeyChar() == 'y') {
+            Point3d pos = cam.getPosition();
+            pos.setY(pos.getY() + 1);
+            cam.setPosition(pos);
+        } else if (ke.getKeyChar() == 'Y') {
+            Point3d pos = cam.getPosition();
+            pos.setY(pos.getY() - 1);
+            cam.setPosition(pos);
         } else if (ke.getKeyChar() == 'z') {
             Point3d pos = cam.getPosition();
             pos.setZ(pos.getZ() + 1);
             cam.setPosition(pos);
-            System.out.println("more, z = " + cam.getPosition().getZ());
         } else if (ke.getKeyChar() == 'Z') {
             Point3d pos = cam.getPosition();
             pos.setZ(pos.getZ() - 1);
             cam.setPosition(pos);
-            System.out.println("less, z = " + cam.getPosition().getZ());
-        } else if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            System.out.println(ke.getKeyChar());
-            System.exit(0);
         } else {
             System.out.println(ke.getKeyChar());
         }
@@ -274,9 +269,29 @@ public class Screen extends JComponent implements KeyListener {
             repaint();
     }
 
+    private void printKeyboardHelp() {
+        System.out.println(String.join("\n",
+                "Keyboard Commands:",
+                "a - print All scene information to console",
+                "f - decrease view distance, making scene appear Farther away",
+                "h - print this help to the console",
+                "n - increase view distance, making scene appear Nearer",
+                "p - Pause drawing - screen will not refresh while paused",
+                "q - Quit",
+                "s - Save all scene data to scene.json",
+                "x - move the camera along the X axis",
+                "X - move the camera backwards along the X axis",
+                "y - move the camera along the Y axis",
+                "Y - move the camera backwards along the Y axis",
+                "z - move the camera along the Z axis",
+                "Z - move the camera backwards along the Z axis",
+                ""
+        ));
+    }
+
 
     public static void main(String args[]) {
-        JFrame jf = new JFrame("Test");
+        JFrame jf = new JFrame("3D Raytracer");
         Screen screen = new Screen();
 
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
