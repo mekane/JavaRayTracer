@@ -11,6 +11,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -300,6 +304,9 @@ public class Screen extends JComponent implements KeyListener {
             if (draw)
                 repaint();
         }//less Z
+        else if (ke.getKeyChar() == 's') {
+            this.exportToJson();
+        }
         else if (ke.getKeyChar() == 't') {
             thresh *= 10.0;
             System.out.println("more, t = " + thresh);
@@ -333,5 +340,44 @@ public class Screen extends JComponent implements KeyListener {
         jf.pack();
         jf.setVisible(true);
         //jf.setResizable(false);
+    }
+
+    public String sceneToJson() {
+        StringBuilder lightJson = new StringBuilder("[");
+        for (Light l : this.lightList) {
+            lightJson.append(l.toJson()).append(",");
+        }
+        lightJson.setCharAt(lightJson.length()-1, ']');
+
+        StringBuilder objectJson = new StringBuilder("[");
+        for (Object3d o : this.objectList) {
+            objectJson.append(o.toJson()).append(",");
+        }
+        objectJson.setCharAt(lightJson.length()-1, ']');
+
+        return String.join("\n",
+                "{",
+                "camera: " + this.cam.toJson() + ",",
+                "lights: " + lightJson + ",",
+                "objects: " + objectJson,
+                "}"
+        );
+    }
+
+    public void exportToJson() {
+        File outputFile = new File("scene.json");
+        PrintWriter fileOut = null;
+
+        try {
+            fileOut = new PrintWriter(new FileOutputStream(outputFile));
+        } catch (FileNotFoundException fnfe) {
+            System.out.println("Error: could not open file " + outputFile.getName());
+            return;
+        }
+
+        fileOut.println(this.sceneToJson());
+        fileOut.println();
+        fileOut.flush();
+        fileOut.close();
     }
 }
