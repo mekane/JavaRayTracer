@@ -81,6 +81,10 @@ public class Light implements Exportable {
         this.color = c;
     }
 
+    public static Light fromJson(String json) {
+        return new Light();
+    }
+
     @Override
     public String toJson() {
         return String.join("\n",
@@ -90,10 +94,5 @@ public class Light implements Exportable {
                 JsonUtils.colorToJson(this.color, 1),
                 "}"
         );
-    }
-
-    @Override
-    public Object fromJson() {
-        return null;
     }
 }

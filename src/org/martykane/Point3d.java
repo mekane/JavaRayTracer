@@ -9,10 +9,8 @@ public class Point3d {
     protected double y;
     protected double z;
 
-    private Point3d() {
+    private Point3d() {//no default (empty) constructor
     }
-
-    ;//no default (empty) constructor
 
     public Point3d(double nx, double ny, double nz) {
         this.x = nx;

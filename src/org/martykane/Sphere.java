@@ -146,8 +146,4 @@ public class Sphere extends Object3d {
         );
     }
 
-    @Override
-    public Object fromJson() {
-        return null;
-    }
 }

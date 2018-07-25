@@ -84,14 +84,13 @@ public class Triple implements Exportable {
         return this.z;
     }
 
-    @Override
-    public String toJson() {
-        return String.format("[" + this.x + ", " + this.y + ", " + this.z + "]");
+    public static Triple fromJson(String json) {
+        return new Triple(0, 0, 0);
     }
 
     @Override
-    public Object fromJson() {
-        return null;
+    public String toJson() {
+        return String.format("[" + this.x + ", " + this.y + ", " + this.z + "]");
     }
 
     public String toJsonObjectWithLabel(String label) {

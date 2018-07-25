@@ -8,19 +8,22 @@ package org.martykane;
  */
 
 public class Camera implements Exportable {
-    private double x;
-    private double y; //position
-    private double z;
+    private double x = 0;
+    private double y = 0; //position
+    private double z = 0;
 
-    private double lx;
-    private double ly; //point the camera is looking at
-    private double lz;
+    private double lx = 0;
+    private double ly = 0; //point the camera is looking at
+    private double lz = 0;
 
-    private double ux;
-    private double uy; //components for 'up' vector
-    private double uz;
+    private double ux = 0;
+    private double uy = 0; //components for 'up' vector
+    private double uz = 0;
 
-    private int viewDist; //Distance from eye to viewing plane
+    private int viewDist = 0; //Distance from eye to viewing plane
+
+    private Camera() {
+    }
 
     /**
      * Make a camera with the specified position and orientation
@@ -77,7 +80,6 @@ public class Camera implements Exportable {
     }
 
 
-    //Get
     public Point3d getPosition() {
         return new Point3d(x, y, z);
     }
@@ -204,8 +206,8 @@ public class Camera implements Exportable {
                 "}");
     }
 
-    public Object fromJson() {
-        return null;
+    public static Camera fromJson(String json) {
+        return new Camera();
     }
 }
 

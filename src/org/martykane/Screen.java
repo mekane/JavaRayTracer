@@ -2,6 +2,8 @@ package org.martykane;
 
 import java.awt.Color;
 
+import org.json.*;
+
 /**
  * The screens draw a visual representation of everything in the World.
  * It keeps an internal list of all the entities it is supposed to draw.
@@ -11,10 +13,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -234,6 +235,9 @@ public class Screen extends JComponent implements KeyListener {
             System.out.println("Draw: " + draw);
         } else if (ke.getKeyChar() == 'q' || ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
             System.exit(0);
+        } else if (ke.getKeyChar() == 'r') {
+            this.importFromJson();
+            System.out.println("Scene loaded from scene.json");
         } else if (ke.getKeyChar() == 's') {
             this.exportToJson();
             System.out.println("Scene exported to scene.json");
@@ -341,5 +345,22 @@ public class Screen extends JComponent implements KeyListener {
         fileOut.println();
         fileOut.flush();
         fileOut.close();
+    }
+
+    public void importFromJson() {
+        String jsonString = "";
+
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get("scene.json"));
+            jsonString = new String(encoded, "UTF-8");
+        } catch (IOException ioe) {
+            System.out.println("Error reading scene from scene.json" + ioe);
+        }
+
+        JSONObject scene = new JSONObject(jsonString);
+
+        JSONObject camera = scene.getJSONObject("camera");
+
+        System.out.println("Read JSON for camera: " + camera);
     }
 }

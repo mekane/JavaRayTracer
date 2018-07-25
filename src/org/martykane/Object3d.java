@@ -98,4 +98,9 @@ public abstract class Object3d implements Exportable {
                 "  \"diffuse\": " + this.diffuse
         );
     }
+
+    @Override
+    public String toJson() {
+        return null;
+    }
 }

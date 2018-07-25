@@ -11,6 +11,9 @@ public class Tri3d extends Object3d {
     private Point3d v2; //Vertices of triangle
     private Point3d v3;
 
+    private Tri3d() {
+    }
+
     /**
      * Construct a new Tri3d. Define vertices in a clockwise direction.
      *
@@ -146,6 +149,10 @@ public class Tri3d extends Object3d {
         return (this.intersectWith(S, c) != null);
     }
 
+    public static Tri3d fromJson(String json) {
+        return new Tri3d();
+    }
+
     @Override
     public String toJson() {
         return String.join("\n",
@@ -156,10 +163,5 @@ public class Tri3d extends Object3d {
                 this.v3.toTriple().toJsonObjectWithLabel("v3", 1),
                 "}"
         );
-    }
-
-    @Override
-    public Object fromJson() {
-        return null;
     }
 }

@@ -10,6 +10,9 @@ public class Quad3d extends Object3d {
     private Point3d v3;
     private Point3d v4;
 
+    private Quad3d() {
+    }
+
     /**
      * Construct a new Quad3d. Define vertices in a clockwise direction.
      *
@@ -159,6 +162,10 @@ public class Quad3d extends Object3d {
         return (this.intersectWith(S, c) != null);
     }
 
+    public static Quad3d fromJson(String json) {
+        return new Quad3d();
+    }
+
     @Override
     public String toJson() {
         return String.join("\n",
@@ -170,10 +177,5 @@ public class Quad3d extends Object3d {
                 this.v4.toTriple().toJsonObjectWithLabel("v4", 1),
                 "}"
         );
-    }
-
-    @Override
-    public Object fromJson() {
-        return null;
     }
 }
