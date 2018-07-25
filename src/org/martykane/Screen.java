@@ -33,21 +33,21 @@ public class Screen extends JComponent implements KeyListener {
 
     //Constructors
     public Screen() {
-        this(1280, 960);
+        this(640, 480);
     }
 
     public Screen(int width, int height) {
         super();
 
         //CAMERA
-        cam = new Camera(new Point3d(-8.01d, 4d, 0d),
-                new Point3d(0d, 1d, 0d));
+        cam = new Camera(new Point3d(-1.01d, 1, -4d),
+                new Point3d(8d, 2d, 4d));
         cam.setViewDist(600);
 
         //LIGHTS
         this.lightList = new Vector<Light>();
         lightList.add(new Light(0d, 15d, -4d, 0.15, new Color(255, 180, 180)));
-        //lightList.add(new Light(0d, 15d, 6d, 0.15, new Color(180, 255, 180)));
+        lightList.add(new Light(0d, 15d, 6d, 0.95, new Color(180, 255, 180)));
 
         this.ambientLight = 0.1f;
 
@@ -66,12 +66,12 @@ public class Screen extends JComponent implements KeyListener {
 
         Sphere s1 = new Sphere(new Point3d(5, 1.5, 2), 1);
         s1.setColor(new Color(200, 200, 200));
-        s1.setDiffuse(0.1d);
+        s1.setDiffuse(0.9d);
         objectList.add(s1);
 
-        Sphere s2 = new Sphere(new Point3d(5, 1.5, 6), 1);
+        Sphere s2 = new Sphere(new Point3d(5, 4, 2), 1);
         s2.setColor(new Color(10, 90, 255));
-        s2.setDiffuse(0.25d);
+        s2.setDiffuse(0.1d);
         objectList.add(s2);
 
         //Window Setup
@@ -124,6 +124,8 @@ public class Screen extends JComponent implements KeyListener {
                 {
                     Object3d obj = best.getHitObject();
                     Color hue = obj.getColor();
+                    double diffuse = best.getHitObject().getDiffuse();
+
                     Color nhue = background;
                     Point3d P = best.getHitPoint();
                     Ray3d N = best.getHitNormal().normalize();
@@ -137,26 +139,27 @@ public class Screen extends JComponent implements KeyListener {
                         //intersections with that ray for each object. If the ray hits an
                         //object, then that object is blocking this light, so we skip it
                         Ray3d toLight = L.getPosition().minus(start);
-                        if (isInShadow(start, toLight))
-                            continue;
+                        if (isInShadow(start, toLight)) {
+                            //continue; //this seems problematic / too simplistic. Shadows don't have any variance.
+                            double id = ambientLight;
+                            nhue = addColors(nhue, mulColor(hue, id));
+                        }
+                        else {
+                            Ray3d S = L.getPosition().minus(P).normalize();
 
-                        Ray3d S = L.getPosition().minus(P).normalize();
+                            double val = Math.max(S.dot(N), 0);
 
-                        double val = Math.max(S.dot(N), 0);
-                        double dif = best.getHitObject().getDiffuse();
+                            double id = val * diffuse * L.getBrightness() + ambientLight;
 
-                        double id = val * dif * L.getBrightness() + ambientLight;
-
-                        nhue = addColors(nhue, mulColor(hue, id));
+                            nhue = addColors(nhue, mulColor(hue, id));
+                        }
                     }
 
                     g.setColor(nhue);
-                    //if ( test )
-                    //g.setColor(Color.yellow);
+
+                    //System.out.println("pixel: " + nhue);
                 }
-
                 g.drawLine(w - c, h - r, w - c, h - r);
-
             }//C
         }//R
     }
@@ -213,6 +216,8 @@ public class Screen extends JComponent implements KeyListener {
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyChar() == 'a') {
             System.out.println("a");
+            System.out.println("Print All Values");
+            System.out.println("camera: " + this.cam.toJson());
         } else if (ke.getKeyChar() == 'f') {
             cam.setViewDist(cam.getViewDist() + 10);
             System.out.println("Farther, view dist = " + cam.getViewDist());
