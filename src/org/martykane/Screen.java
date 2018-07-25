@@ -241,90 +241,58 @@ public class Screen extends JComponent implements KeyListener {
     }
 
     public void keyPressed(KeyEvent ke) {
-        if (ke.getKeyChar() == 'p') {
-            draw = !draw;
-            System.out.println("Draw: " + draw);
-            if (draw)
-                repaint();
+        if (ke.getKeyChar() == 'a') {
+            System.out.println("a");
         } else if (ke.getKeyChar() == 'f') {
             cam.setViewDist(cam.getViewDist() + 10);
             System.out.println("Farther, view dist = " + cam.getViewDist());
-            if (draw)
-                repaint();
         } else if (ke.getKeyChar() == 'n') {
             cam.setViewDist(cam.getViewDist() - 10);
             System.out.println("Nearer, view dist = " + cam.getViewDist());
-            if (draw)
-                repaint();
+        } else if (ke.getKeyChar() == 'p') {
+            draw = !draw;
+            System.out.println("Draw: " + draw);
+        } else if (ke.getKeyChar() == 's') {
+            this.exportToJson();
         } else if (ke.getKeyChar() == 'y') {
             Point3d pos = cam.getPosition();
             pos.setY(pos.getY() + 1);
             cam.setPosition(pos);
             System.out.println("Up, y = " + cam.getPosition().getY());
-            if (draw)
-                repaint();
-        }//more Y
-        else if (ke.getKeyChar() == 'Y') {
+        } else if (ke.getKeyChar() == 'Y') {
             Point3d pos = cam.getPosition();
             pos.setY(pos.getY() - 1);
             cam.setPosition(pos);
             System.out.println("Down, y = " + cam.getPosition().getY());
-            if (draw)
-                repaint();
-        }//less Y
-        else if (ke.getKeyChar() == 'x') {
+        } else if (ke.getKeyChar() == 'x') {
             Point3d pos = cam.getPosition();
             pos.setX(pos.getX() + 1);
             cam.setPosition(pos);
             System.out.println("more, x = " + cam.getPosition().getX());
-            if (draw)
-                repaint();
-        }//more x
-        else if (ke.getKeyChar() == 'X') {
+        } else if (ke.getKeyChar() == 'X') {
             Point3d pos = cam.getPosition();
             pos.setX(pos.getX() - 1);
             cam.setPosition(pos);
             System.out.println("less, x = " + cam.getPosition().getX());
-            if (draw)
-                repaint();
-        }//less X
-        else if (ke.getKeyChar() == 'z') {
+        } else if (ke.getKeyChar() == 'z') {
             Point3d pos = cam.getPosition();
             pos.setZ(pos.getZ() + 1);
             cam.setPosition(pos);
             System.out.println("more, z = " + cam.getPosition().getZ());
-            if (draw)
-                repaint();
-        }//more z
-        else if (ke.getKeyChar() == 'Z') {
+        } else if (ke.getKeyChar() == 'Z') {
             Point3d pos = cam.getPosition();
             pos.setZ(pos.getZ() - 1);
             cam.setPosition(pos);
             System.out.println("less, z = " + cam.getPosition().getZ());
-            if (draw)
-                repaint();
-        }//less Z
-        else if (ke.getKeyChar() == 's') {
-            this.exportToJson();
-        }
-        else if (ke.getKeyChar() == 't') {
-            thresh *= 10.0;
-            System.out.println("more, t = " + thresh);
-            if (draw)
-                repaint();
-        }//more thresh
-        else if (ke.getKeyChar() == 'T') {
-            thresh /= 10.0;
-            System.out.println("less, t = " + thresh);
-            if (draw)
-                repaint();
-        }//less Z
-        else if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        } else if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
             System.out.println(ke.getKeyChar());
             System.exit(0);
         } else {
             System.out.println(ke.getKeyChar());
         }
+
+        if (draw)
+            repaint();
     }
 
 
@@ -347,13 +315,13 @@ public class Screen extends JComponent implements KeyListener {
         for (Light l : this.lightList) {
             lightJson.append(l.toJson()).append(",");
         }
-        lightJson.setCharAt(lightJson.length()-1, ']');
+        lightJson.setCharAt(lightJson.length() - 1, ']');
 
         StringBuilder objectJson = new StringBuilder("[");
         for (Object3d o : this.objectList) {
             objectJson.append(o.toJson()).append(",");
         }
-        objectJson.setCharAt(lightJson.length()-1, ']');
+        objectJson.setCharAt(lightJson.length() - 1, ']');
 
         return String.join("\n",
                 "{",
