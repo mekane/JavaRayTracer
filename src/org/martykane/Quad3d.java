@@ -159,4 +159,21 @@ public class Quad3d extends Object3d {
         return (this.intersectWith(S, c) != null);
     }
 
+    @Override
+    public String toJson() {
+        return String.join("\n",
+                "{",
+                this.baseJsonStrings() + ",",
+                this.v1.toTriple().toJsonObjectWithLabel("v1", 1) + ",",
+                this.v2.toTriple().toJsonObjectWithLabel("v2", 1) + ",",
+                this.v3.toTriple().toJsonObjectWithLabel("v3", 1) + ",",
+                this.v4.toTriple().toJsonObjectWithLabel("v4", 1),
+                "}"
+        );
+    }
+
+    @Override
+    public Object fromJson() {
+        return null;
+    }
 }

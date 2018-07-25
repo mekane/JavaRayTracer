@@ -1,11 +1,12 @@
 package org.martykane;
 
+import java.awt.Color;
+
 /**
  * The screens draw a visual representation of everything in the World.
  * It keeps an internal list of all the entities it is supposed to draw.
  */
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -29,11 +30,10 @@ public class Screen extends JComponent implements KeyListener {
 
     /*test*/ double thresh = 0.000001;
 
-    //some contant colors
+    //some constant colors
     private final Color sky_blue = new Color(10, 10, 80);
     private final Color green_1 = new Color(10, 90, 10);
-    private final Color green_2 = Color.green.darker();
-
+    private final Color green_2 = new Color(0, 75, 0);
 
     //Constructors
     public Screen() {
@@ -47,12 +47,12 @@ public class Screen extends JComponent implements KeyListener {
         this.objectList = new Vector<Object3d>();
 
         Quad3d q = new Quad3d(3d, 0d, -2d, -2d, 0d, -2d, -2d, 0d, 2d, 3d, 0d, 2d);
-        q.setMaterial(Color.blue, 0.95);
+        q.setMaterial(Color.BLUE, 0.95);
         q.setName("blue quad");
         objectList.add(q);
 
         q = new Quad3d(2d, 0d, 1d, 1d, 0d, 1d, 1d, 1d, 1d, 2d, 1d, 1d);
-        q.setMaterial(Color.blue, 0.85);
+        q.setMaterial(Color.BLUE, 0.85);
         q.setName("blue quad");
         objectList.add(q);
         System.out.println(q.getName() + " " + q.getNormal());
@@ -93,7 +93,7 @@ public class Screen extends JComponent implements KeyListener {
         }
 
         //clear screen
-        g.setColor(Color.black);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, w, h);
 
         Point3d eye = cam.getPosition();
@@ -110,7 +110,6 @@ public class Screen extends JComponent implements KeyListener {
         System.out.println("Starting Trace: [" + w + " x " + h + "]");
 
         Color background = new Color(ambientLight, ambientLight, ambientLight);
-        //Color background = Color.black;
 
         for (int c = 0; c < w; c++) //x
         {
@@ -130,8 +129,7 @@ public class Screen extends JComponent implements KeyListener {
 
                 //Now use the best Intersection to shade pixel
                 if (best.getHitObject() == null) {
-                    g.setColor(new Color(4, 8, 16));
-                    g.setColor(Color.black);
+                    g.setColor(background);
                 } else //shade according to object
                 {
                     Object3d obj = best.getHitObject();
@@ -205,7 +203,6 @@ public class Screen extends JComponent implements KeyListener {
 
     /**
      * Private utility method to add two colors together
-     *
      */
     private Color addColors(Color c1, Color c2) {
         return new Color((int) Math.min((c1.getRed() + c2.getRed()), 255),
@@ -215,7 +212,6 @@ public class Screen extends JComponent implements KeyListener {
 
     /**
      * Private utility method to multiple a color by a scalar
-     *
      */
     private Color mulColor(Color c1, double num) {
         return new Color((int) Math.min((c1.getRed() * num), 255),
@@ -225,7 +221,6 @@ public class Screen extends JComponent implements KeyListener {
 
     /**
      * Private utility method to multiple a color by a scalar
-     *
      */
     private Color mulColor3(Color c1, double nr, double ng, double nb) {
         return new Color((int) Math.min((c1.getRed() * nr), 255),

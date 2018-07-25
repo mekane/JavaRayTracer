@@ -2,9 +2,9 @@ package org.martykane;
 
 import java.awt.Color;
 
-public abstract class Object3d {
+public abstract class Object3d implements Exportable {
     //All 3d Objects have various material properties
-    protected Color color;
+    protected Color color = Color.WHITE;
     protected double diffuse; //The coefficient of diffuse reflection
     protected String name;
 
@@ -83,8 +83,19 @@ public abstract class Object3d {
                 Math.abs(p.getZ()) % 2 > 1) ||
                 (Math.abs(p.getZ()) % 2 <= 1 &&
                         Math.abs(p.getX()) % 2 > 1))
-            return Color.green;
+            return Color.GREEN;
         else
-            return Color.red;
+            return Color.RED;
+    }
+
+    /**
+     * Returns the property and value strings for the base properties on a 3D object, not the surrounding brackets
+     */
+    protected String baseJsonStrings() {
+        return String.join("\n",
+                "  name: " + this.getName() + ",",
+                JsonUtils.colorToJson(this.color, 1) + ",",
+                "  diffuse: " + this.diffuse
+        );
     }
 }

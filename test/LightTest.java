@@ -1,6 +1,7 @@
 import org.junit.Test;
-import org.martykane.Color;
 import org.martykane.Light;
+
+import java.awt.Color;
 
 import static org.junit.Assert.assertEquals;
 

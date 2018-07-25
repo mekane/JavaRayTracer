@@ -11,6 +11,15 @@ public class Sphere extends Object3d {
 
     private double radius;
 
+    @Override
+    public String toJson() {
+        return null;
+    }
+
+    @Override
+    public Object fromJson() {
+        return null;
+    }
 
     private Sphere() {
     }

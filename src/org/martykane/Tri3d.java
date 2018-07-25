@@ -145,4 +145,14 @@ public class Tri3d extends Object3d {
     public boolean blocks(Point3d S, Ray3d c) {
         return (this.intersectWith(S, c) != null);
     }
+
+    @Override
+    public String toJson() {
+        return null;
+    }
+
+    @Override
+    public Object fromJson() {
+        return null;
+    }
 }

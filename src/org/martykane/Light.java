@@ -1,17 +1,17 @@
 package org.martykane;
 
+import java.awt.Color;
+
 /**
  * A class that encapsulates a light
  */
 
 public class Light implements Exportable {
-    public static final Color WHITE = new Color(255, 255, 255);
-
     private double x;
     private double y;
     private double z;
     private double brightness = 0;
-    private Color color = WHITE;
+    private Color color = Color.WHITE;
 
     private Light() {
     }
@@ -38,14 +38,14 @@ public class Light implements Exportable {
      * Make a white light at the given position with the given brightness
      */
     public Light(double lx, double ly, double lz, double bright) {
-        this(lx, ly, lz, bright, WHITE);
+        this(lx, ly, lz, bright, Color.WHITE);
     }
 
     /**
      * Make a white light at the given position with the given brightness
      */
     public Light(Point3d pos, double bright) {
-        this(pos.getX(), pos.getY(), pos.getZ(), bright, WHITE);
+        this(pos.getX(), pos.getY(), pos.getZ(), bright, Color.WHITE);
     }
 
     public Light(Point3d pos, double bright, Color c) {
@@ -87,7 +87,7 @@ public class Light implements Exportable {
                 "{",
                 this.getPosition().toTriple().toJsonObjectWithLabel("position", 1) + ",",
                 "  brightness: " + this.getBrightness() + ",",
-                this.color.toJson(1),
+                JsonUtils.colorToJson(this.color, 1),
                 "}"
         );
     }
