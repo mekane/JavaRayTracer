@@ -21,8 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class Screen extends JComponent implements KeyListener {
-    private boolean draw = false;
-    private boolean debug = false;
+    private boolean draw = true;
 
     //Global Scene Data
     private Vector<Object3d> objectList;
@@ -32,50 +31,48 @@ public class Screen extends JComponent implements KeyListener {
 
     private Camera cam;
 
-    /*test*/ double thresh = 0.000001;
-
-    //some constant colors
-    private final Color sky_blue = new Color(10, 10, 80);
-    private final Color green_1 = new Color(10, 90, 10);
-    private final Color green_2 = new Color(0, 75, 0);
-
     //Constructors
     public Screen() {
-        this(640, 480);
+        this(1280, 960);
     }
 
     public Screen(int width, int height) {
         super();
 
-        //Setup Scene Variables
-        this.objectList = new Vector<Object3d>();
-
-        Quad3d q = new Quad3d(3d, 0d, -2d, -2d, 0d, -2d, -2d, 0d, 2d, 3d, 0d, 2d);
-        q.setMaterial(Color.BLUE, 0.95);
-        q.setName("blue quad");
-        objectList.add(q);
-
-        q = new Quad3d(2d, 0d, 1d, 1d, 0d, 1d, 1d, 1d, 1d, 2d, 1d, 1d);
-        q.setMaterial(Color.BLUE, 0.85);
-        q.setName("blue quad");
-        objectList.add(q);
-        System.out.println(q.getName() + " " + q.getNormal());
-
-
-        //lights
-        this.lightList = new Vector<Light>();
-        lightList.add(new Light(0d, 10d, -4d, 0.45));
-        lightList.add(new Light(0d, 10d, 6d, 0.45));
-
-        //lightList.add( new Light( 0d, 10d, -10d, 0.3 ) );
-        //lightList.add( new Light( -5d, 10d, 0d, 0.2 ) );
-        this.ambientLight = 0.1f;
-
-        //Defining the camera viewing the Scene
-        cam = new Camera(new Point3d(-8.01d, 6d, 0d),
+        //CAMERA
+        cam = new Camera(new Point3d(-8.01d, 4d, 0d),
                 new Point3d(0d, 1d, 0d));
         cam.setViewDist(600);
 
+        //LIGHTS
+        this.lightList = new Vector<Light>();
+        lightList.add(new Light(0d, 15d, -4d, 0.15, new Color(255, 180, 180)));
+        //lightList.add(new Light(0d, 15d, 6d, 0.15, new Color(180, 255, 180)));
+
+        this.ambientLight = 0.1f;
+
+        //SCENE OBJECTS
+        this.objectList = new Vector<Object3d>();
+
+        Quad3d q = new Quad3d(
+                new Point3d(9d, 0d, -9d),
+                new Point3d(-9d, 0d, -9d),
+                new Point3d(-9d, 0d, 9d),
+                new Point3d(9d, 0d, 9d)
+        );
+        q.setMaterial(new Color(32, 32, 48), 0.65);
+        q.setName("Blue surface");
+        objectList.add(q);
+
+        Sphere s1 = new Sphere(new Point3d(5, 1.5, 2), 1);
+        s1.setColor(new Color(200, 200, 200));
+        s1.setDiffuse(0.1d);
+        objectList.add(s1);
+
+        Sphere s2 = new Sphere(new Point3d(5, 1.5, 6), 1);
+        s2.setColor(new Color(10, 90, 255));
+        s2.setDiffuse(0.25d);
+        objectList.add(s2);
 
         //Window Setup
         this.setMinimumSize(new Dimension(width, height));
@@ -102,17 +99,6 @@ public class Screen extends JComponent implements KeyListener {
 
         Point3d eye = cam.getPosition();
 
-        if (debug) {
-            System.out.println("\nTesting Camera\n");
-            System.out.println("position: " + cam.getPosition());
-            System.out.println("look at: " + cam.getLookPoint());
-            System.out.println("up vec: " + cam.getUpVector());
-            System.out.println("N = " + cam.getN());
-            System.out.println("U = " + cam.getU());
-            System.out.println("V = " + cam.getV());
-        }
-        System.out.println("Starting Trace: [" + w + " x " + h + "]");
-
         Color background = new Color(ambientLight, ambientLight, ambientLight);
 
         for (int c = 0; c < w; c++) //x
@@ -133,7 +119,7 @@ public class Screen extends JComponent implements KeyListener {
 
                 //Now use the best Intersection to shade pixel
                 if (best.getHitObject() == null) {
-                    g.setColor(background);
+                    g.setColor(Color.BLACK);
                 } else //shade according to object
                 {
                     Object3d obj = best.getHitObject();
@@ -143,27 +129,15 @@ public class Screen extends JComponent implements KeyListener {
                     Ray3d N = best.getHitNormal().normalize();
 
                     //Adjust hit point for shadow check - move slightly back towards eye
-                    Point3d start = P.minus(next.times(thresh));
-
-                    /** TEST **/
-                    boolean test = false;
-                    if (c == 320 && r > 300 && r < 305) {
-                        test = true;
-                        System.out.println("\ny (" + c + "," + r + ")");
-                        System.out.println("Hit Point = (" + P + ")");
-                        System.out.println("Start Pt  = (" + start + ")");
-                    }
-                    /** TEST **/
+                    Point3d start = P.minus(next.times(0.0001));
 
                     for (Light L : lightList) //find contribution from each light
                     {
-                        if (test)
-                            System.out.println("checking light at " + L.getPosition());
                         //Check for shadows by sending a ray to each light and checking for
                         //intersections with that ray for each object. If the ray hits an
                         //object, then that object is blocking this light, so we skip it
                         Ray3d toLight = L.getPosition().minus(start);
-                        if (isInShadow(start, toLight, test))
+                        if (isInShadow(start, toLight))
                             continue;
 
                         Ray3d S = L.getPosition().minus(P).normalize();
@@ -185,11 +159,7 @@ public class Screen extends JComponent implements KeyListener {
 
             }//C
         }//R
-
-    /**/
-        System.out.println("Trace Done");
-
-    }//end - paint
+    }
 
 
     /**
@@ -197,7 +167,7 @@ public class Screen extends JComponent implements KeyListener {
      * does block the ray (intersect with the object), then the point in question
      * must be in shadow.
      */
-    private boolean isInShadow(Point3d point, Ray3d ray, boolean test) {
+    private boolean isInShadow(Point3d point, Ray3d ray) {
         for (Object3d o : objectList)//check each object for shadow
             if (o.blocks(point, ray))
                 return true;
