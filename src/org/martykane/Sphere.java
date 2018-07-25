@@ -11,16 +11,6 @@ public class Sphere extends Object3d {
 
     private double radius;
 
-    @Override
-    public String toJson() {
-        return null;
-    }
-
-    @Override
-    public Object fromJson() {
-        return null;
-    }
-
     private Sphere() {
     }
 
@@ -143,5 +133,21 @@ public class Sphere extends Object3d {
         }
 
         return false;
+    }
+
+    @Override
+    public String toJson() {
+        return String.join("\n",
+                "{",
+                this.baseJsonStrings() + ",",
+                this.getPosition().toTriple().toJsonObjectWithLabel("center", 1) + ",",
+                "  radius: " + this.radius,
+                "}"
+        );
+    }
+
+    @Override
+    public Object fromJson() {
+        return null;
     }
 }
