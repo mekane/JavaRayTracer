@@ -1,12 +1,12 @@
 import org.junit.Test;
-import org.martykane.Quad3d;
+import org.martykane.Tri3d;
 
 import static org.junit.Assert.assertEquals;
 
-public class QuadTest {
+public class Tri3DTest {
     @Test
     public void canExportToObject() {
-        Quad3d test = new Quad3d(11, 12, 13, 21, 22, 23, 31, 32, 33, 41, 42, 43);
+        Tri3d test = new Tri3d(11, 12, 13, 21, 22, 23, 31, 32, 33);
 
         String expectedJson = String.join("\n",
                 "{",
@@ -31,11 +31,6 @@ public class QuadTest {
                 "    x: 31.0,",
                 "    y: 32.0,",
                 "    z: 33.0",
-                "  },",
-                "  v4: {",
-                "    x: 41.0,",
-                "    y: 42.0,",
-                "    z: 43.0",
                 "  }",
                 "}");
 

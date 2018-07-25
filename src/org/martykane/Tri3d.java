@@ -148,7 +148,14 @@ public class Tri3d extends Object3d {
 
     @Override
     public String toJson() {
-        return null;
+        return String.join("\n",
+                "{",
+                this.baseJsonStrings() + ",",
+                this.v1.toTriple().toJsonObjectWithLabel("v1", 1) + ",",
+                this.v2.toTriple().toJsonObjectWithLabel("v2", 1) + ",",
+                this.v3.toTriple().toJsonObjectWithLabel("v3", 1),
+                "}"
+        );
     }
 
     @Override
