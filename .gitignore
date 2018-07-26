@@ -1,4 +1,6 @@
+scene.json
 
+# Java / IDE stuff
 bin/
 .classpath
 .project

@@ -44,18 +44,26 @@ public class CameraTest {
     public void importsFromJson() {
         double delta = .00001;
 
-        String camJson = "{\"center\":{\"x\":50,\"y\":5,\"z\":45}," +
-                "\"position\":{\"x\":20,\"y\":20,\"z\":20}," +
-                "\"up\":{\"x\":0,\"y\":1,\"z\":0}}";
+        String camJson = "{\"center\":{\"x\":50,\"y\":51,\"z\":45}," +
+                "\"position\":{\"x\":21,\"y\":22,\"z\":23}," +
+                "\"up\":{\"x\":10,\"y\":11,\"z\":12}}";
 
         Camera actualCamera = Camera.fromJson(camJson);
 
-        Point3d actualPosition = actualCamera.getPosition();
         Point3d actualLookPoint = actualCamera.getLookPoint();
+        Point3d actualPosition = actualCamera.getPosition();
         Ray3d actualUpVector = actualCamera.getUpVector();
 
-        assertEquals(50, actualPosition.getX(), delta);
-        assertEquals(5, actualPosition.getY(), delta);
-        assertEquals(45, actualPosition.getZ(), delta);
+        assertEquals(50, actualLookPoint.getX(), delta);
+        assertEquals(51, actualLookPoint.getY(), delta);
+        assertEquals(45, actualLookPoint.getZ(), delta);
+
+        assertEquals(21, actualPosition.getX(), delta);
+        assertEquals(22, actualPosition.getY(), delta);
+        assertEquals(23, actualPosition.getZ(), delta);
+
+        assertEquals(10, actualUpVector.getX(), delta);
+        assertEquals(11, actualUpVector.getY(), delta);
+        assertEquals(12, actualUpVector.getZ(), delta);
     }
 }

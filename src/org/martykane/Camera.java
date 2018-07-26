@@ -1,5 +1,7 @@
 package org.martykane;
 
+import org.json.JSONObject;
+
 /**
  * A class to encapsulate a camera in 3d
  * <p>
@@ -207,7 +209,17 @@ public class Camera implements Exportable {
     }
 
     public static Camera fromJson(String json) {
-        return new Camera();
+        JSONObject cameraJson = new JSONObject(json);
+
+        JSONObject lookPointJson = cameraJson.getJSONObject("center");
+        JSONObject positionJson = cameraJson.getJSONObject("position");
+        JSONObject upVectorJson = cameraJson.getJSONObject("up");
+
+        Point3d lookPoint = new Point3d(lookPointJson.getDouble("x"), lookPointJson.getDouble("y"), lookPointJson.getDouble("z"));
+        Point3d position = new Point3d(positionJson.getDouble("x"), positionJson.getDouble("y"), positionJson.getDouble("z"));
+        Ray3d upVector = new Ray3d(upVectorJson.getDouble("x"), upVectorJson.getDouble("y"), upVectorJson.getDouble("z"));
+
+        return new Camera(position, lookPoint, upVector);
     }
 }
 
