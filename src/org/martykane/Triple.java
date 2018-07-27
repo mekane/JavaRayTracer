@@ -109,4 +109,6 @@ public class Triple implements Exportable {
                 indent + "  \"z\": " + this.z,
                 indent + "}");
     }
+
+    //TODO: import from JSON and use this in Camera, Light, etc.
 }

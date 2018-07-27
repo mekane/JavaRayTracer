@@ -1,5 +1,9 @@
 package org.martykane;
 
+import org.json.JSONObject;
+
+import java.awt.*;
+
 /**
  * A class to encapsulate a 4-sided polygon in 3 dimensions
  */
@@ -163,7 +167,28 @@ public class Quad3d extends Object3d {
     }
 
     public static Quad3d fromJson(String json) {
-        return new Quad3d();
+        JSONObject quadJson = new JSONObject(json);
+
+        JSONObject colorJson = quadJson.getJSONObject("color");
+        JSONObject v1Json = quadJson.getJSONObject("v1");
+        JSONObject v2Json = quadJson.getJSONObject("v2");
+        JSONObject v3Json = quadJson.getJSONObject("v3");
+        JSONObject v4Json = quadJson.getJSONObject("v4");
+
+        String name = quadJson.getString("name");
+        Color color = new Color(colorJson.getInt("r"), colorJson.getInt("g"), colorJson.getInt("b"));
+        double diffuse = quadJson.getDouble("diffuse");
+        Point3d v1 = new Point3d(v1Json.getDouble("x"), v1Json.getDouble("y"), v1Json.getDouble("z"));
+        Point3d v2 = new Point3d(v2Json.getDouble("x"), v2Json.getDouble("y"), v2Json.getDouble("z"));
+        Point3d v3 = new Point3d(v3Json.getDouble("x"), v3Json.getDouble("y"), v3Json.getDouble("z"));
+        Point3d v4 = new Point3d(v4Json.getDouble("x"), v4Json.getDouble("y"), v4Json.getDouble("z"));
+
+        Quad3d result = new Quad3d(v1, v2, v3, v4);
+        result.setName(name);
+        result.setColor(color);
+        result.setDiffuse(diffuse);
+
+        return result;
     }
 
     @Override
