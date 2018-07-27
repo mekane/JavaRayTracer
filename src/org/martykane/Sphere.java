@@ -1,5 +1,9 @@
 package org.martykane;
 
+import org.json.JSONObject;
+
+import java.awt.*;
+
 /**
  * Base class for an sphere that exists in our 3d world
  */
@@ -29,7 +33,7 @@ public class Sphere extends Object3d {
         this.radius = size;
     }
 
-    public Sphere(Point3d np, int size) {
+    public Sphere(Point3d np, double size) {
         this(np.getX(), np.getY(), np.getZ(), size);
     }
 
@@ -38,6 +42,9 @@ public class Sphere extends Object3d {
         return new Point3d(this.x, this.y, this.z);
     }
 
+    public double getRadius() {
+        return this.radius;
+    }
 
     /**
      * Determine when (whether) the given Ray, starting from the given Point,
@@ -146,4 +153,22 @@ public class Sphere extends Object3d {
         );
     }
 
+    public static Sphere fromJson(String json) {
+        JSONObject sphereJson = new JSONObject(json);
+        JSONObject colorJson = sphereJson.getJSONObject("color");
+        JSONObject centerJson = sphereJson.getJSONObject("center");
+
+        String name = sphereJson.getString("name");
+        Color color = new Color(colorJson.getInt("r"), colorJson.getInt("g"), colorJson.getInt("b"));
+        double diffuse = sphereJson.getDouble("diffuse");
+        Point3d position = new Point3d(centerJson.getDouble("x"), centerJson.getDouble("y"), centerJson.getDouble("z"));
+        double radius = sphereJson.getDouble("radius");
+
+        Sphere result = new Sphere(position, radius);
+        result.setName(name);
+        result.setColor(color);
+        result.setDiffuse(diffuse);
+
+        return result;
+    }
 }
