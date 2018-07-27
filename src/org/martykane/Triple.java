@@ -113,4 +113,8 @@ public class Triple implements Exportable {
 
         return new Triple(tripleJson.getDouble("x"), tripleJson.getDouble("y"), tripleJson.getDouble("z"));
     }
+
+    public static Triple fromJson(JSONObject tripleJson) {
+        return new Triple(tripleJson.getDouble("x"), tripleJson.getDouble("y"), tripleJson.getDouble("z"));
+    }
 }

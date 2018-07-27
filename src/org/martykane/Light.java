@@ -89,7 +89,7 @@ public class Light implements Exportable {
         JSONObject positionJson = lightJson.getJSONObject("position");
         JSONObject colorJson = lightJson.getJSONObject("color");
 
-        Point3d position = new Point3d(positionJson.getDouble("x"), positionJson.getDouble("y"), positionJson.getDouble("z"));
+        Point3d position = new Point3d(Triple.fromJson(positionJson));
         double brightness = lightJson.getDouble("brightness");
         Color color = new Color(colorJson.getInt("r"), colorJson.getInt("g"), colorJson.getInt("b"));
 

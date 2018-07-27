@@ -215,9 +215,9 @@ public class Camera implements Exportable {
         JSONObject positionJson = cameraJson.getJSONObject("position");
         JSONObject upVectorJson = cameraJson.getJSONObject("up");
 
-        Point3d lookPoint = new Point3d(lookPointJson.getDouble("x"), lookPointJson.getDouble("y"), lookPointJson.getDouble("z"));
-        Point3d position = new Point3d(positionJson.getDouble("x"), positionJson.getDouble("y"), positionJson.getDouble("z"));
-        Ray3d upVector = new Ray3d(upVectorJson.getDouble("x"), upVectorJson.getDouble("y"), upVectorJson.getDouble("z"));
+        Point3d lookPoint = new Point3d(Triple.fromJson(lookPointJson));
+        Point3d position = new Point3d(Triple.fromJson(positionJson));
+        Ray3d upVector = new Ray3d(Triple.fromJson(upVectorJson));
 
         return new Camera(position, lookPoint, upVector);
     }
