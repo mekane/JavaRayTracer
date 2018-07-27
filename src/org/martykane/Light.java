@@ -1,5 +1,7 @@
 package org.martykane;
 
+import org.json.JSONObject;
+
 import java.awt.Color;
 
 /**
@@ -82,7 +84,16 @@ public class Light implements Exportable {
     }
 
     public static Light fromJson(String json) {
-        return new Light();
+        JSONObject lightJson = new JSONObject(json);
+
+        JSONObject positionJson = lightJson.getJSONObject("position");
+        JSONObject colorJson = lightJson.getJSONObject("color");
+
+        Point3d position = new Point3d(positionJson.getDouble("x"), positionJson.getDouble("y"), positionJson.getDouble("z"));
+        double brightness = lightJson.getDouble("brightness");
+        Color color = new Color(colorJson.getInt("r"), colorJson.getInt("g"), colorJson.getInt("b"));
+
+        return new Light(position, brightness, color);
     }
 
     @Override
