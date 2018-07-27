@@ -54,4 +54,21 @@ public class TripleTest {
 
         assertEquals(expectedJson, test.toJsonObjectWithLabel("foo", 2));
     }
+
+    @Test
+    public void canReadInAnObjectToATripleWithXYZ() {
+        double delta = 0.00001;
+
+        String tripleJson = "{" +
+                "  \"x\": 1.0," +
+                "  \"y\": 2.0," +
+                "  \"z\": 3.0" +
+                "}";
+
+        Triple actualTriple = Triple.fromJson(tripleJson);
+
+        assertEquals(1.0, actualTriple.getX(), delta);
+        assertEquals(2.0, actualTriple.getY(), delta);
+        assertEquals(3.0, actualTriple.getZ(), delta);
+    }
 }

@@ -1,5 +1,7 @@
 package org.martykane;
 
+import org.json.JSONObject;
+
 import java.awt.*;
 import java.util.Collections;
 
@@ -84,10 +86,6 @@ public class Triple implements Exportable {
         return this.z;
     }
 
-    public static Triple fromJson(String json) {
-        return new Triple(0, 0, 0);
-    }
-
     @Override
     public String toJson() {
         return String.format("[" + this.x + ", " + this.y + ", " + this.z + "]");
@@ -110,5 +108,9 @@ public class Triple implements Exportable {
                 indent + "}");
     }
 
-    //TODO: import from JSON and use this in Camera, Light, etc.
+    public static Triple fromJson(String json) {
+        JSONObject tripleJson = new JSONObject(json);
+
+        return new Triple(tripleJson.getDouble("x"), tripleJson.getDouble("y"), tripleJson.getDouble("z"));
+    }
 }
