@@ -1,6 +1,8 @@
 package org.martykane;
 
-import java.awt.Color;
+import org.json.JSONObject;
+
+import java.awt.*;
 
 /**
  * A class to encapsulate a triangular polygon in 3 dimensions
@@ -149,10 +151,6 @@ public class Tri3d extends Object3d {
         return (this.intersectWith(S, c) != null);
     }
 
-    public static Tri3d fromJson(String json) {
-        return new Tri3d();
-    }
-
     @Override
     public String toJson() {
         return String.join("\n",
@@ -163,5 +161,28 @@ public class Tri3d extends Object3d {
                 this.v3.toTriple().toJsonObjectWithLabel("v3", 1),
                 "}"
         );
+    }
+
+    public static Tri3d fromJson(String json) {
+        JSONObject triJson = new JSONObject(json);
+
+        JSONObject colorJson = triJson.getJSONObject("color");
+        JSONObject v1Json = triJson.getJSONObject("v1");
+        JSONObject v2Json = triJson.getJSONObject("v2");
+        JSONObject v3Json = triJson.getJSONObject("v3");
+
+        String name = triJson.getString("name");
+        Color color = new Color(colorJson.getInt("r"), colorJson.getInt("g"), colorJson.getInt("b"));
+        double diffuse = triJson.getDouble("diffuse");
+        Point3d v1 = new Point3d(v1Json.getDouble("x"), v1Json.getDouble("y"), v1Json.getDouble("z"));
+        Point3d v2 = new Point3d(v2Json.getDouble("x"), v2Json.getDouble("y"), v2Json.getDouble("z"));
+        Point3d v3 = new Point3d(v3Json.getDouble("x"), v3Json.getDouble("y"), v3Json.getDouble("z"));
+
+        Tri3d result = new Tri3d(v1, v2, v3);
+        result.setName(name);
+        result.setColor(color);
+        result.setDiffuse(diffuse);
+
+        return result;
     }
 }
